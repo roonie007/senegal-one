@@ -22,7 +22,11 @@ import {
   ButtonNext,
 } from "pure-react-carousel";
 import { useWindowSize } from "@uidotdev/usehooks";
-import "pure-react-carousel/dist/react-carousel.es.css";
+
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
 
 const Home: React.FC = () => {
   const size = useWindowSize();
@@ -34,7 +38,7 @@ const Home: React.FC = () => {
   const [selected, setSelected] = useState("stays");
 
   const [isMasonry, setIsMasonry] = useState(true);
-  const [currentSliderIndex, setCurrentSliderIndex] = useState<number>();
+  const [currentSliderIndex, setCurrentSliderIndex] = useState<number>(0);
 
   const [isFetching, setIsFetching] = useState(false);
 
@@ -133,6 +137,22 @@ const Home: React.FC = () => {
     );
   };
 
+  const Caption = ({ data }: { data: CometripData }) => {
+    if (data.type === "stay") {
+      return (
+        <p className="line-clamp-1 text-xs text-gray-500">{data.adress}</p>
+      );
+    } else if (data.type === "car" && data?.brand?.name) {
+      return (
+        <p className="line-clamp-1 text-xs text-gray-500">
+          {data?.brand?.name}
+        </p>
+      );
+    }
+
+    return <span> </span>;
+  };
+
   const CometripCardSlider = (data: CometripData) => {
     const images = getImages(data);
 
@@ -140,29 +160,29 @@ const Home: React.FC = () => {
       <div
         id={`items-${data._id}`}
         key={data._id}
-        className="h-full flex flex-col"
+        className="flex flex-col h-svh "
       >
-        <CarouselProvider
-          naturalSlideWidth={size.width as number}
-          naturalSlideHeight={(size.height as number) * 0.9}
-          totalSlides={images.length}
-          orientation="horizontal"
-          lockOnWindowScroll
-        >
-          <Slider>
-            {images.map((image, index) => {
-              return (
-                <Slide index={index}>
-                  <div
-                    className="bg-cover bg-center size-full"
-                    style={{ backgroundImage: `url(${image})` }}
-                  ></div>
-                </Slide>
-              );
-            })}
-          </Slider>
-        </CarouselProvider>
-        <div className="flex flex-grow bg-red-400">a</div>
+        <Swiper autoplay={false} className="h-5/6 w-full" slidesPerView={1}>
+          {images.map((image, index) => {
+            return (
+              <SwiperSlide>
+                <div
+                  className="bg-cover bg-center size-full"
+                  style={{ backgroundImage: `url(${image})` }}
+                ></div>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+        <div className="flex flex-col flex-grow text-white justify-center items-center px-2 py-4">
+          <div className="text-white text-center text-ellipsis overflow-hidden text-large">
+            {data.name}
+          </div>
+          <Caption data={data} />
+          <p className="line-clamp-2 text-sm mt-4 text-center">
+            {data.description}
+          </p>
+        </div>
       </div>
     );
   };
@@ -200,27 +220,24 @@ const Home: React.FC = () => {
 
   const CometripCardListSlider = () => {
     return (
-      <div className="fixed top-0 left-0 h-screen w-screen bg-black">
-        <CarouselProvider
-          naturalSlideWidth={size.width as number}
-          naturalSlideHeight={size.height as number}
-          totalSlides={list.length}
-          orientation="vertical"
-          lockOnWindowScroll
-          currentSlide={currentSliderIndex}
+      <div className="fixed top-0 left-0 h-svh w-screen bg-black">
+        <Swiper
+          autoplay={false}
+          onInit={(swiper) => (swiper.activeIndex = currentSliderIndex)}
+          slidesPerView={1}
+          direction="vertical"
+          height={size.height}
         >
-          <Slider>
-            {list.map((x, index) => {
-              return <Slide index={index}>{CometripCardSlider(x)}</Slide>;
-            })}
-          </Slider>
-        </CarouselProvider>
+          {list.map((x, index) => {
+            return <SwiperSlide>{CometripCardSlider(x)}</SwiperSlide>;
+          })}
+        </Swiper>
         <Button
           isIconOnly
           radius="full"
           size="lg"
           onClick={() => setIsMasonry(true)}
-          className="absolute top-2 right-2 text-white"
+          className="absolute top-2 right-2 text-white z-10"
           variant="light"
         >
           <Icon icon="solar:close-circle-bold" fontSize={30} />
