@@ -29,7 +29,14 @@ const Home: React.FC = () => {
           >
             Touriste
           </Button>
-          <Button color="danger" variant="light">
+          <Button
+            color="danger"
+            variant="light"
+            onClick={(e) => {
+              e.preventDefault();
+              history.push("/discover");
+            }}
+          >
             Acteur du secteur
           </Button>
         </div>
