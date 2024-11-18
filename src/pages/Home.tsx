@@ -24,7 +24,7 @@ const Home: React.FC = () => {
             variant="light"
             onClick={(e) => {
               e.preventDefault();
-              history.push("/search");
+              history.push("/stays");
             }}
           >
             Touriste
