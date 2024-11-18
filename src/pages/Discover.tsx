@@ -28,6 +28,10 @@ import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 
+import { Pagination, Parallax } from "swiper/modules";
+import "swiper/css/pagination";
+import "swiper/css/parallax";
+
 const Home: React.FC = () => {
   const size = useWindowSize();
   const history = useHistory();
@@ -57,26 +61,6 @@ const Home: React.FC = () => {
 
   const loadMoreData = async (key: string) => {
     setIsFetching(true);
-
-    // const {
-    //   data: { events },
-    // } = await $api.post<{ events: CEvent[] }>("/search/events", { page });
-    // const {
-    //   data: { cars },
-    // } = await $api.post<{ cars: CCar[] }>("/search/cars", { page });
-    // const {
-    //   data: { properties: stays },
-    // } = await $api.post<{ properties: CStay[] }>("/search", { page });
-
-    // const data: CometripData[] = shuffle([
-    //   ...events.map((x) => ({ ...x, type: "event" })),
-    //   ...cars.map((x) => ({ ...x, type: "car" })),
-    //   ...stays.map((x) => ({ ...x, type: "stay" })),
-    // ]);
-    // setList([...list, ...data]);
-
-    // console.log(data);
-    // setPage(page + 1);
 
     let data: CometripData[] = [];
 
@@ -162,7 +146,15 @@ const Home: React.FC = () => {
         key={data._id}
         className="flex flex-col h-svh "
       >
-        <Swiper autoplay={false} className="h-5/6 w-full" slidesPerView={1}>
+        <Swiper
+          modules={[Pagination, Parallax]}
+          pagination={{
+            bulletActiveClass: "bg-white opacity-100 !scale-110",
+          }}
+          autoplay={false}
+          className="h-5/6 w-full"
+          slidesPerView={1}
+        >
           {images.map((image, index) => {
             return (
               <SwiperSlide>
@@ -232,16 +224,18 @@ const Home: React.FC = () => {
             return <SwiperSlide>{CometripCardSlider(x)}</SwiperSlide>;
           })}
         </Swiper>
-        <Button
-          isIconOnly
-          radius="full"
-          size="lg"
-          onClick={() => setIsMasonry(true)}
-          className="absolute top-2 right-2 text-white z-10"
-          variant="light"
-        >
-          <Icon icon="solar:close-circle-bold" fontSize={30} />
-        </Button>
+        <div className="absolute top-2 right-2  bg-black z-10 size-fit flex h-6 w-6 items-center justify-center rounded-full">
+          <Button
+            isIconOnly
+            radius="full"
+            size="lg"
+            onClick={() => setIsMasonry(true)}
+            className=" text-white "
+            variant="light"
+          >
+            <Icon icon="solar:close-circle-bold" fontSize={30} />
+          </Button>
+        </div>
       </div>
     );
   };
@@ -298,11 +292,11 @@ const Home: React.FC = () => {
           selectedKey={selected}
           onSelectionChange={(key) => onTabChange(key.toString())}
           classNames={{
-            base: "w-full",
-            tabList: "w-full",
+            base: "w-full py-2",
+            tabList: "w-full bg-transparent",
             tab: "h-auto",
-            cursor: "shadow-none",
-            panel: "px-0",
+            cursor: "shadow bg-slate-50",
+            panel: "px-0 pt-0",
           }}
         >
           <Tab key="stays" title={TabIcon("Logements")}>
