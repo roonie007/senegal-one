@@ -37,6 +37,7 @@ import "@ionic/react/css/display.css";
 import "./theme/tailwind.css";
 import "./theme/variables.css";
 import Tourist from "./pages/Tourist";
+import Actor from "./pages/Actor";
 
 setupIonicReact();
 
@@ -50,6 +51,9 @@ const App: React.FC = () => (
           </Route>
           <Route exact path="/tourist">
             <Tourist />
+          </Route>
+          <Route exact path="/actor">
+            <Actor />
           </Route>
 
           <Route exact path="/">

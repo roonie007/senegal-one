@@ -20,8 +20,8 @@ const Home: React.FC = () => {
     history.push("/tourist");
   };
 
-  const goToDiscover = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    history.push("/discover");
+  const goToActor = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    history.push("/actor");
   };
 
   return (
@@ -31,7 +31,7 @@ const Home: React.FC = () => {
           <div
             className="c-pic c-pic-right absolute  h-full w-full"
             style={{ backgroundImage: `url(${acteur})` }}
-            onClick={goToDiscover}
+            onClick={goToActor}
           >
             <div className="size-full bg-black bg-opacity-60 flex relative justify-center active:bg-opacity-0 transition-all">
               <span className="absolute top-40 mx-auto text-5xl text-white">

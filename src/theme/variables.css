@@ -11,4 +11,15 @@ http://ionicframework.com/docs/theming/ */
   font-style: normal;
 
   --ion-font-family: "Montserrat", sans-serif;
+  --ion-color-primary: #14744d;
+  --ion-color-secondary: blue;
+}
+
+ion-tab-button {
+  transition: transform 0.2s;
+}
+
+ion-tab-button:not(.tab-selected) {
+  color: gray;
+  transform: scale(0.9);
 }
