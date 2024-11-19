@@ -16,8 +16,8 @@ import touriste from "../assets/touriste-2.jpg";
 const Home: React.FC = () => {
   const history = useHistory();
 
-  const goToStays = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    history.push("/stays");
+  const goToTourist = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    history.push("/tourist");
   };
 
   const goToDiscover = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -42,18 +42,13 @@ const Home: React.FC = () => {
           <div
             className="c-pic c-pic-left absolute h-full w-full"
             style={{ backgroundImage: `url(${touriste})` }}
-            onClick={goToStays}
+            onClick={goToTourist}
           >
             <div className="size-full bg-black bg-opacity-60 flex relative justify-center active:bg-opacity-0 transition-all">
               <span className="absolute bottom-40 mx-auto text-5xl text-white">
                 Touriste
               </span>
             </div>
-          </div>
-          <div className="absolute flex justify-center items-center bg-white h-3 w-[800px] rotate-[24deg] blur-[4px]">
-            {/* <div className="bg-white rounded-full h-12 w-12 flex justify-center items-center">
-              OU
-            </div> */}
           </div>
         </div>
       </IonContent>

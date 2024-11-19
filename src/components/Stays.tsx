@@ -18,9 +18,7 @@ import "swiper/css/parallax";
 import "swiper/css/navigation";
 import { useDebounce } from "use-debounce";
 
-const Home: React.FC = () => {
-  const history = useHistory();
-
+const Stays: React.FC = () => {
   const [page, setPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
   const [list, setList] = useState<CStay[]>([]);
@@ -89,9 +87,13 @@ const Home: React.FC = () => {
     setIsFetching(false);
   };
 
-  const CometripCard = (data: CStay) => (
-    <div key={data._id} className="w-full aspect-square flex flex-col p-4 ">
+  const CometripCard = (data: CStay, index: number) => (
+    <div
+      key={`stay-${data._id}-${index}`}
+      className="w-full aspect-square flex flex-col p-4 "
+    >
       <Swiper
+        key={`swipper-${data._id}-${index}`}
         modules={[Pagination, Parallax]}
         autoplay={false}
         className="h-5/6 w-full"
@@ -100,9 +102,12 @@ const Home: React.FC = () => {
           bulletActiveClass: "bg-white opacity-100 !scale-110",
         }}
       >
-        {data.media.pictures.map((image, index) => {
+        {data.media.pictures.map((image, index2) => {
           return (
-            <SwiperSlide className="rounded-3xl">
+            <SwiperSlide
+              key={`swipper-slide-${data._id}-${index2}`}
+              className="rounded-3xl"
+            >
               <div
                 className="bg-cover bg-center size-full "
                 style={{ backgroundImage: `url(${image})` }}
@@ -145,23 +150,18 @@ const Home: React.FC = () => {
   }, [regionIndex]);
 
   return (
-    <IonPage>
-      <IonContent fullscreen>
-        <div className="flex flex-col h-full">
-          <div className="flex flex-col gap-y-4 w-full items-center">
-            <div className="flex items-center w-full gap-x-4  p-4 pb-0">
-              <Input
-                label="Destination"
-                variant="flat"
-                onValueChange={setText}
-              />
+    <IonContent fullscreen>
+      <div className="flex flex-col h-full">
+        <div className="flex flex-col gap-y-4 w-full items-center">
+          <div className="flex items-center w-full gap-x-4  p-4 pb-0">
+            <Input label="Destination" variant="flat" onValueChange={setText} />
 
-              {/* <Button isIconOnly variant="bordered" radius="full" size="lg">
+            {/* <Button isIconOnly variant="bordered" radius="full" size="lg">
                 <Icon icon="solar:tuning-4-outline" fontSize={24} />
               </Button> */}
-            </div>
+          </div>
 
-            {/* <Button
+          {/* <Button
             color="primary"
             variant="light"
             className="my-2"
@@ -172,49 +172,48 @@ const Home: React.FC = () => {
           >
             Discover Sénégal
           </Button> */}
-            <div className="w-full flex overflow-x-scroll gap-x-2 px-4 no-scrollbar">
-              {regions.map((region, index) => (
-                <Button
-                  color={regionIndex === index ? "primary" : "default"}
-                  onClick={() =>
-                    setRegionIndex(regionIndex === index ? -1 : index)
-                  }
-                  key={region.placeid}
-                  className="min-w-fit"
-                >
-                  {region.name}
-                </Button>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-col  flex-1 flex-shrink-0 ">
-            {list.map((x) => CometripCard(x))}
-            {list.length === 0 && !isFetching && (
-              <div className="w-full h-full flex flex-col justify-center items-center">
-                <Icon icon="solar:sad-circle-linear" fontSize={48} />
-                <span>Pas de logement disponible pour le moment</span>
-              </div>
-            )}
-
-            <IonInfiniteScroll
-              onIonInfinite={(ev) => {
-                if (isFetching || (list.length === 0 && page === 1)) {
-                  return;
+          <div className="w-full flex overflow-x-scroll gap-x-2 px-4 no-scrollbar">
+            {regions.map((region, index) => (
+              <Button
+                color={regionIndex === index ? "primary" : "default"}
+                onClick={() =>
+                  setRegionIndex(regionIndex === index ? -1 : index)
                 }
-                loadMoreData();
-                setTimeout(() => ev.target.complete(), 500);
-              }}
-            >
-              <div className="infinite-scroll-content size-full flex items-center justify-center min-h-3">
-                {isFetching && <Spinner />}
-              </div>
-            </IonInfiniteScroll>
+                key={region.placeid}
+                className="min-w-fit"
+              >
+                {region.name}
+              </Button>
+            ))}
           </div>
         </div>
-      </IonContent>
-    </IonPage>
+
+        <div className="flex flex-col  flex-1 flex-shrink-0 ">
+          {list.map((x, index) => CometripCard(x, index))}
+          {list.length === 0 && !isFetching && (
+            <div className="w-full h-full flex flex-col justify-center items-center">
+              <Icon icon="solar:sad-circle-linear" fontSize={48} />
+              <span>Pas de logement disponible pour le moment</span>
+            </div>
+          )}
+
+          <IonInfiniteScroll
+            onIonInfinite={(ev) => {
+              if (isFetching || (list.length === 0 && page === 1)) {
+                return;
+              }
+              loadMoreData();
+              setTimeout(() => ev.target.complete(), 500);
+            }}
+          >
+            <div className="infinite-scroll-content size-full flex items-center justify-center min-h-3">
+              {isFetching && <Spinner />}
+            </div>
+          </IonInfiniteScroll>
+        </div>
+      </div>
+    </IonContent>
   );
 };
 
-export default Home;
+export default Stays;

@@ -36,6 +36,7 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/tailwind.css";
 import "./theme/variables.css";
+import Tourist from "./pages/Tourist";
 
 setupIonicReact();
 
@@ -47,12 +48,10 @@ const App: React.FC = () => (
           <Route exact path="/home">
             <Home />
           </Route>
-          <Route exact path="/stays">
-            <Stays />
+          <Route exact path="/tourist">
+            <Tourist />
           </Route>
-          <Route exact path="/discover">
-            <Discover />
-          </Route>
+
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>
