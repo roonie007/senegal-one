@@ -31,8 +31,11 @@ import "swiper/css";
 import { Pagination, Parallax } from "swiper/modules";
 import "swiper/css/pagination";
 import "swiper/css/parallax";
+import Regions from "./Regions";
 
 const Discover: React.FC = () => {
+  const [selectedRegion, setSelectedRegion] = useState<string>();
+
   const size = useWindowSize();
   const history = useHistory();
 
@@ -54,7 +57,7 @@ const Discover: React.FC = () => {
   };
 
   useEffect(() => {
-    if (list.length === 0) {
+    if (list.length === 0 && isFetching === false && page === 1) {
       loadMoreData(selected);
     }
   }, [list]);
@@ -73,21 +76,24 @@ const Discover: React.FC = () => {
       });
 
       data = events.map((x) => ({ ...x, type: "event" }));
-    } else if (key === "cars") {
-      const {
-        data: { cars },
-      } = await $api.post<{ cars: CCar[] }>("/search/cars", {
-        page,
-        items: 40,
-      });
+    }
+    // else if (key === "cars") {
+    //   const {
+    //     data: { cars },
+    //   } = await $api.post<{ cars: CCar[] }>("/search/cars", {
+    //     page,
+    //     items: 40,
+    //   });
 
-      data = cars.map((x) => ({ ...x, type: "car" }));
-    } else if (key === "stays") {
+    //   data = cars.map((x) => ({ ...x, type: "car" }));
+    // }
+    else if (key === "stays") {
       const {
         data: { properties: stays },
       } = await $api.post<{ properties: CStay[] }>("/search", {
         page,
         items: 40,
+        placeid: selectedRegion,
       });
 
       data = stays.map((x) => ({ ...x, type: "stay" }));
@@ -263,33 +269,55 @@ const Discover: React.FC = () => {
     loadMoreData(selected);
   }, []);
 
+  useEffect(() => {
+    setIsMasonry(true);
+    setPage(1);
+    setList([]);
+  }, [selectedRegion]);
+
   return (
     <IonContent fullscreen>
-      <Tabs
-        aria-label="Options"
-        selectedKey={selected}
-        onSelectionChange={(key) => onTabChange(key.toString())}
-        classNames={{
-          base: "w-full py-2",
-          tabList: "w-full bg-transparent",
-          tab: "h-auto",
-          cursor: "shadow bg-slate-50",
-          panel: "px-0 pt-0",
-        }}
-      >
-        <Tab key="stays" title={TabIcon("Logements")}>
+      {!selectedRegion && (
+        <Regions onSelected={(region) => setSelectedRegion(region)} />
+      )}
+      {selectedRegion && (
+        <>
+          <div className="flex w-full my-2 gap-x-2 px-2 text-primary">
+            <span
+              className="flex w-fit gap-x-1"
+              onClick={() => setSelectedRegion("")}
+            >
+              <Icon icon="solar:arrow-left-outline" fontSize={24} />
+              Régions
+            </span>
+          </div>
+          <Tabs
+            aria-label="Options"
+            selectedKey={selected}
+            onSelectionChange={(key) => onTabChange(key.toString())}
+            classNames={{
+              base: "w-full py-2",
+              tabList: "w-full bg-transparent",
+              tab: "h-auto",
+              cursor: "shadow bg-slate-50",
+              panel: "px-0 pt-0",
+            }}
+          >
+            <Tab key="stays" title={TabIcon("Logements")}>
+              <CometripCardList />
+              {isMasonry === false && <CometripCardListSlider />}
+            </Tab>
+            <Tab key="events" title={TabIcon("Événements")}>
+              <CometripCardList />
+              {isMasonry === false && <CometripCardListSlider />}
+            </Tab>
+            {/* <Tab key="cars" title={TabIcon("Voitures")}>
           <CometripCardList />
           {isMasonry === false && <CometripCardListSlider />}
-        </Tab>
-        <Tab key="events" title={TabIcon("Événements")}>
-          <CometripCardList />
-          {isMasonry === false && <CometripCardListSlider />}
-        </Tab>
-        <Tab key="cars" title={TabIcon("Voitures")}>
-          <CometripCardList />
-          {isMasonry === false && <CometripCardListSlider />}
-        </Tab>
-      </Tabs>
+        </Tab> */}
+          </Tabs>
+        </>
+      )}
     </IonContent>
   );
 };

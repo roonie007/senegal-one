@@ -106,7 +106,7 @@ const Stays: React.FC = () => {
           return (
             <SwiperSlide
               key={`swipper-slide-${data._id}-${index2}`}
-              className="rounded-3xl"
+              className="rounded-3xl size-full"
             >
               <div
                 className="bg-cover bg-center size-full "
