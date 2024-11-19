@@ -29,6 +29,10 @@ const Tourist: React.FC = () => {
             <Icon icon="solar:confetti-minimalistic-linear" fontSize={24} />
             Découvertes
           </IonTabButton>
+          <IonTabButton tab="chat">
+            <Icon icon="solar:chat-dots-outline" fontSize={24} />
+            Messagerie
+          </IonTabButton>
         </IonTabBar>
       </IonTabs>
     </IonPage>

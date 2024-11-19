@@ -76,18 +76,16 @@ const Discover: React.FC = () => {
       });
 
       data = events.map((x) => ({ ...x, type: "event" }));
-    }
-    // else if (key === "cars") {
-    //   const {
-    //     data: { cars },
-    //   } = await $api.post<{ cars: CCar[] }>("/search/cars", {
-    //     page,
-    //     items: 40,
-    //   });
+    } else if (key === "cars") {
+      const {
+        data: { cars },
+      } = await $api.post<{ cars: CCar[] }>("/search/cars", {
+        page,
+        items: 40,
+      });
 
-    //   data = cars.map((x) => ({ ...x, type: "car" }));
-    // }
-    else if (key === "stays") {
+      data = cars.map((x) => ({ ...x, type: "car" }));
+    } else if (key === "stays") {
       const {
         data: { properties: stays },
       } = await $api.post<{ properties: CStay[] }>("/search", {
@@ -296,7 +294,7 @@ const Discover: React.FC = () => {
             selectedKey={selected}
             onSelectionChange={(key) => onTabChange(key.toString())}
             classNames={{
-              base: "w-full py-2",
+              base: "w-full py-2 ",
               tabList: "w-full bg-transparent",
               tab: "h-auto",
               cursor: "shadow bg-slate-50",
@@ -311,10 +309,10 @@ const Discover: React.FC = () => {
               <CometripCardList />
               {isMasonry === false && <CometripCardListSlider />}
             </Tab>
-            {/* <Tab key="cars" title={TabIcon("Voitures")}>
-          <CometripCardList />
-          {isMasonry === false && <CometripCardListSlider />}
-        </Tab> */}
+            <Tab key="cars" title={TabIcon("Voitures")}>
+              <CometripCardList />
+              {isMasonry === false && <CometripCardListSlider />}
+            </Tab>
           </Tabs>
         </>
       )}

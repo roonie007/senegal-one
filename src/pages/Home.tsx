@@ -13,6 +13,8 @@ import { useHistory } from "react-router-dom";
 import acteur from "../assets/acteur-2.jpg";
 import touriste from "../assets/touriste-2.jpg";
 
+import Logo from "../assets/logo.png";
+
 const Home: React.FC = () => {
   const history = useHistory();
 
@@ -49,6 +51,9 @@ const Home: React.FC = () => {
                 Touriste
               </span>
             </div>
+          </div>
+          <div className="absolute">
+            <img src={Logo} />
           </div>
         </div>
       </IonContent>
