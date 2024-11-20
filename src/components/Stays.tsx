@@ -17,6 +17,7 @@ import "swiper/css/pagination";
 import "swiper/css/parallax";
 import "swiper/css/navigation";
 import { useDebounce } from "use-debounce";
+import DiscoverStay from "./DiscoverStay";
 
 const Stays: React.FC = () => {
   const [page, setPage] = useState(1);
@@ -87,47 +88,6 @@ const Stays: React.FC = () => {
     setIsFetching(false);
   };
 
-  const CometripCard = (data: CStay, index: number) => (
-    <div
-      key={`stay-${data._id}-${index}`}
-      className="w-full aspect-square flex flex-col p-4 "
-    >
-      <Swiper
-        key={`swipper-${data._id}-${index}`}
-        modules={[Pagination, Parallax]}
-        autoplay={false}
-        className="h-5/6 w-full"
-        slidesPerView={1}
-        pagination={{
-          bulletActiveClass: "bg-white opacity-100 !scale-110",
-        }}
-      >
-        {data.media.pictures.map((image, index2) => {
-          return (
-            <SwiperSlide
-              key={`swipper-slide-${data._id}-${index2}`}
-              className="rounded-3xl size-full"
-            >
-              <div
-                className="bg-cover bg-center size-full "
-                style={{ backgroundImage: `url(${image})` }}
-              ></div>
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
-      <div className="flex flex-col flex-grow justify-center items-start">
-        <div className="font-semibold text-ellipsis overflow-hidden">
-          {data.name}
-        </div>
-        <p className="line-clamp-1 text-sm">{data.adress}</p>
-        <p className="text-sm">
-          <span className="font-medium">{data.price} FCFA</span> par nuit
-        </p>
-      </div>
-    </div>
-  );
-
   useEffect(() => {
     loadMoreData();
   }, []);
@@ -189,27 +149,7 @@ const Stays: React.FC = () => {
         </div>
 
         <div className="flex flex-col  flex-1 flex-shrink-0 ">
-          {list.map((x, index) => CometripCard(x, index))}
-          {list.length === 0 && !isFetching && (
-            <div className="w-full h-full flex flex-col justify-center items-center">
-              <Icon icon="solar:sad-circle-linear" fontSize={48} />
-              <span>Pas de logement disponible pour le moment</span>
-            </div>
-          )}
-
-          <IonInfiniteScroll
-            onIonInfinite={(ev) => {
-              if (isFetching || (list.length === 0 && page === 1)) {
-                return;
-              }
-              loadMoreData();
-              setTimeout(() => ev.target.complete(), 500);
-            }}
-          >
-            <div className="infinite-scroll-content size-full flex items-center justify-center min-h-3">
-              {isFetching && <Spinner />}
-            </div>
-          </IonInfiniteScroll>
+          <DiscoverStay placeid={regions[regionIndex]?.placeid} />
         </div>
       </div>
     </IonContent>
