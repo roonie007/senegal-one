@@ -31,7 +31,6 @@ import "swiper/css";
 import { Pagination, Parallax } from "swiper/modules";
 import "swiper/css/pagination";
 import "swiper/css/parallax";
-import Regions from "./Regions";
 
 const DiscoverStay = ({ placeid }: { placeid?: string } = {}) => {
   const [selectedRegion, setSelectedRegion] = useState<string>();

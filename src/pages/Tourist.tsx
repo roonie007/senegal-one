@@ -8,8 +8,6 @@ import {
 import Stays from "../components/Stays";
 import Discover from "../components/Discover";
 import { Icon } from "@iconify/react";
-import { useEffect, useState } from "react";
-import Regions from "../components/Regions";
 
 const Tourist: React.FC = () => {
   return (

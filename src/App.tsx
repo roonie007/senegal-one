@@ -3,8 +3,6 @@ import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { NextUIProvider } from "@nextui-org/react";
 import Home from "./pages/Home";
-import Stays from "./pages/Stays";
-import Discover from "./pages/Discover";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
