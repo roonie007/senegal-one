@@ -11,6 +11,12 @@
   background-size: 700px;
 }
 
+.c-pic-right-2 {
+  background-position: -400px -100px;
+  background-size: 1100px;
+  background-repeat: no-repeat;
+}
+
 .c-pic-left {
   background-position: -200px 300px;
   background-size: 700px;

@@ -10,7 +10,7 @@ import "./Home.css";
 import { Button } from "@nextui-org/react";
 import { useHistory } from "react-router-dom";
 
-import acteur from "../assets/acteur-2.jpg";
+import acteur from "../assets/acteur-3.jpg";
 import touriste from "../assets/touriste-2.jpg";
 
 import Logo from "../assets/logo.png";
@@ -31,7 +31,7 @@ const Home: React.FC = () => {
       <IonContent fullscreen>
         <div className="h-dvh flex flex-col items-center justify-center">
           <div
-            className="c-pic c-pic-right absolute  h-full w-full"
+            className="c-pic c-pic-right-2 absolute  h-full w-full"
             style={{ backgroundImage: `url(${acteur})` }}
             onClick={goToActor}
           >

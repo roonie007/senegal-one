@@ -116,9 +116,15 @@ const Stays: React.FC = () => {
           <div className="flex items-center w-full gap-x-4  p-4 pb-0">
             <Input label="Destination" variant="flat" onValueChange={setText} />
 
-            {/* <Button isIconOnly variant="bordered" radius="full" size="lg">
-                <Icon icon="solar:tuning-4-outline" fontSize={24} />
-              </Button> */}
+            <Button
+              isIconOnly
+              variant="bordered"
+              radius="full"
+              size="lg"
+              color="primary"
+            >
+              <Icon icon="solar:user-bold" fontSize={24} />
+            </Button>
           </div>
 
           {/* <Button
